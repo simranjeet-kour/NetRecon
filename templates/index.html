@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NetRecon - Network Security Assessment Tool</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>🛡 NetRecon</h1>
+
+        <p>Professional Network Security Assessment Tool</p>
+
+    </div>
+
+    <form method="POST">
+
+        <label>Target IP Address / Hostname</label>
+
+        <input
+            type="text"
+            name="target"
+            value="{{ target }}"
+            placeholder="Example : scanme.nmap.org"
+            required
+        >
+
+        <label>Scan Type</label>
+
+        <select name="scan_type">
+
+            <option {% if scan_type=="Quick Scan" %}selected{% endif %}>Quick Scan</option>
+
+            <option {% if scan_type=="Full Scan" %}selected{% endif %}>Full Scan</option>
+
+            <option {% if scan_type=="Version Detection" %}selected{% endif %}>Version Detection</option>
+
+            <option {% if scan_type=="OS Detection" %}selected{% endif %}>OS Detection</option>
+
+            <option {% if scan_type=="Aggressive Scan" %}selected{% endif %}>Aggressive Scan</option>
+
+        </select>
+
+        <button type="submit">
+            🔍 Start Scan
+        </button>
+
+    </form>
+
+{% if results %}
+
+<hr>
+
+<div class="cards">
+
+    <div class="card">
+
+        <h3>🎯 Target</h3>
+
+        <h2>{{ target }}</h2>
+
+    </div>
+
+    <div class="card">
+
+        <h3>🟢 Status</h3>
+
+        <h2>{{ results[0].status }}</h2>
+
+    </div>
+
+    <div class="card">
+
+        <h3>🔓 Open Ports</h3>
+
+        <h2>{{ risk.open_ports }}</h2>
+
+    </div>
+
+    <div class="card">
+
+        <h3>⚠ Risk</h3>
+
+        <h2 class="{{ risk.color }}">
+            {{ risk.level }}
+        </h2>
+
+        <p>{{ risk.score }}/100</p>
+
+    </div>
+
+</div>
+
+<div class="table-box">
+
+<h2>Scan Results</h2>
+
+<table>
+
+<tr>
+
+<th>Host</th>
+
+<th>Port</th>
+
+<th>Service</th>
+
+<th>State</th>
+
+<th>Version</th>
+
+<th>Operating System</th>
+
+</tr>
+
+{% for item in results %}
+
+{% if item.error %}
+
+<tr>
+
+<td colspan="6">
+
+{{ item.error }}
+
+</td>
+
+</tr>
+
+{% else %}
+
+<tr>
+
+<td>{{ item.host }}</td>
+
+<td>{{ item.port }}</td>
+
+<td>{{ item.service }}</td>
+
+<td>{{ item.state }}</td>
+
+<td>{{ item.product }} {{ item.version }}</td>
+
+<td>{{ item.os }}</td>
+
+</tr>
+
+{% endif %}
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<div class="recommendation-box">
+
+<h2>🛡 Security Recommendations</h2>
+
+<ul>
+
+{% for rec in risk.recommendations %}
+
+<li>{{ rec }}</li>
+
+{% endfor %}
+
+</ul>
+
+</div>
+
+<form action="/download" method="POST">
+
+<input type="hidden" name="target" value="{{ target }}">
+
+<input type="hidden" name="scan_type" value="{{ scan_type }}">
+
+<button class="download-btn">
+
+📄 Download Scan Report
+
+</button>
+
+</form>
+
+{% endif %}
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
