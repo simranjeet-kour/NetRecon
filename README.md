@@ -116,33 +116,31 @@ http://127.0.0.1:5000
 
 ## 🏠 Home Dashboard
 
-![Home](screenshots/home.png)
+![Home Dashboard](screenshots/home.png)
 
 ---
 
 ## 🔍 Network Scan
 
-![Scan](screenshots/scan.png)
+![Network Scan](screenshots/scan.png)
 
 ---
 
 ## 📊 Scan Results
 
-![Results](screenshots/results.png)
+![Scan Results](screenshots/results.png)
 
 ---
 
 ## ⚠️ Risk Analysis
 
-![Risk](screenshots/risk.png)
+![Risk Analysis](screenshots/risk.png)
 
 ---
 
 ## 📄 Download Report
 
-![Report](screenshots/report.png)
-
----
+![Download Report](screenshots/report.png)
 
 # 🔒 Risk Analysis
 
